@@ -1,0 +1,57 @@
+training:
+  batch_size: 256
+  n_epochs: 1000 
+  n_iters: 1000001
+  snapshot_freq: 10
+  snapshot_sampling: true
+  ELBOreg: 0.01 # .008 # 0.001 - 0.2 are fine
+  clipval: 1.
+  alpha: 0.0
+
+test:
+  begin_ckpt: 5000
+  end_ckpt: 300000
+  batch_size: 64
+
+data:
+  n_classes: 5
+  dataset: "PinWheel"
+  samplesize: 10_000
+  test_samplesize: 1_000
+  size: 2
+  channel: 1
+  num_workers: 0
+  dtype: torch.float32
+  logit_transform: true
+
+sample:
+  n_gen: 5000
+
+model:
+  path: 'ot'
+  nllk: true
+  v: 0.4
+  ngf: 200 # 120 # 100
+  fixz: true
+  cnn: true
+
+optim:
+  weight_decay: 0.0001 # 0.001
+  # optimizer: "Adam"
+  lr: 0.001 # 0.001 # try to use even smaller step size for the coupled ODE system
+  multiplier: .4 # 1. larger is more concentrated?
+  clip_value: 1.
+  # beta1: 0.9
+  # amsgrad: false
+  # eps: 0.00000001
+
+flow:
+  cnf: false
+  fix_z: false # true
+  z_dim: 1 # use even number for flow model
+  n_comp: 5
+  ngf: 200 # 120 # 100 # should be the same as model ngf, otherwise easily goes off to infinity
+  sig_min: .00001
+  mul: .001 # this is to decrease the impact of div estimate on the ODE solver - make it faster by scaling it down
+  z_depth: 2
+  freqs: 0

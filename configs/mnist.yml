@@ -1,0 +1,75 @@
+training:
+  batch_size: 256 # 256 # 500
+  n_epochs: 201 # 100 # 1000 # 200 works for gmvae
+  n_iters: 20001
+  snapshot_freq: 10
+  snapshot_sampling: true
+  alpha: 0.01 # 0.01 # 0.1 # 0.001
+  clipval: 1.
+  
+test:
+  begin_ckpt: 100
+  end_ckpt: 300000
+  batch_size: 500
+
+data:
+  n_classes: 10
+  dataset: "MNIST"
+  samplesize: 5000
+  test_samplesize: 300 # 500
+  size: 28
+  channel: 1
+  num_workers: 0
+  dtype: torch.float32
+  logit_transform: true
+  in_sample: true
+
+sample:
+  n_gen: 100
+
+model:
+  # sigma_begin: 50
+  # num_classes: 2
+  # ema: true
+  # ema_rate: 0.999
+  # spec_norm: false
+  # sigma_dist: geometric
+  # sigma_end: 0.01
+  # normalization: InstanceNorm++
+  # nonlinearity: elu
+  path: 'ot'
+  nllk: true
+  v: 0.1
+  ngf: 800 # 800 # 512 # 800
+  mod_ch: 24
+  depth: 3
+  type: 'mlp'  # 'cnn' or 'mlp' for LLK architecture
+  hidden_dim: 512  # intermediate MLP dim (when type=mlp)
+  freqs: 20
+  unet: false
+
+optim:
+  weight_decay: 0.0001
+  # optimizer: "Adam"
+  lr: 0.0005 # 0.0005 # try to use even smaller step size for the coupled ODE system
+  multiplier: .4 # 1.9 # 1.5 # 2.5 larger is more concentrated?
+  clip_value: 1.
+  # beta1: 0.9
+  # amsgrad: false
+  eps: 0.00000001
+
+flow:
+  z_dim: 32 # 32 # is 16 enough for the mixture latent as well?? - seems to be more stable
+  pi_dim: 10 # 10
+  # n_trans: 40
+  n_comp: 10 # 10
+  mod_ch: 16
+  ngf: 800 #800 # 512 # 800 # should be the same as model ngf
+  mul: 2. # this is to decrease the impact of div estimate on the ODE solver - make it faster by scaling it down
+  fix_z: true # false # true # false # false # true
+  fix_pi: true # false
+  beta: 1. # higher promotes uniformity
+  freqs: 4
+  depth: 1
+  cnn: false
+

@@ -1,0 +1,49 @@
+# Data
+data/
+data_test/
+
+# Experiment outputs
+exp/
+lightning_logs/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+
+# Environments
+.env
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# PyTorch
+*.pt
+*.pth
+*.ckpt
+
+# baseline
+src_fm/*
+src_vae/*
+
+# unused configs (no matching runner)
+configs/cifar.yml
+configs/lds.yml

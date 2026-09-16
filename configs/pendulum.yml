@@ -1,0 +1,67 @@
+training:
+  batch_size: 64 # 128 # 128
+  n_epochs: 301
+  n_iters: 20001
+  snapshot_freq: 10
+  snapshot_sampling: true
+  alpha: 0.0 # 0.001 # 0.001 # 0.01 # .001 # .01 # .008 # 0.001 - 0.2 are fine
+  clipval: 1.
+
+test:
+  begin_ckpt: 5000
+  end_ckpt: 300000
+  batch_size: 64
+
+data:
+  n: 2 # latent dimension
+  p: 10 # 8
+  S: 40 # 40 # 81
+  Stotal: 100
+  q: 5 # 9
+  theta: 0.3 # 0.8
+  sin: true
+  channel: 1
+  gen: false
+  samebatch: false # true
+  stride: 1
+  dataset: "PENDULUM"
+  samplesize: 200
+  test_samplesize: 50 # 50
+  num_workers: 0
+  dtype: torch.float32
+
+sample:
+  n_gen: 1
+
+model:
+  path: 'ot'
+  nllk: true
+  v: 0.1
+  ngf: 1024
+  dsemb: 0
+  freqs: 10
+  type: 'mlp'  # 'cnn' or 'mlp' for LLK architecture
+  const: true # false
+  depth: 2
+
+optim:
+  weight_decay: 0.0001
+  # optimizer: "Adam"
+  lr: 0.0008 # try to use even smaller step size for the coupled ODE system
+  # multiplier: .4 # 1.9 # 1.5 # 2.5 larger is more concentrated?
+  clip_value: 1.
+  # beta1: 0.9
+  # amsgrad: false
+  eps: 0.00000001
+
+flow:
+  feature_dim: 2 # use even number for flow model
+  ngf: 1024 # should be the same as model ngf
+  mul: .001 # this is to decrease the impact of div estimate on the ODE solver - make it faster by scaling it down
+  dsemb: 2
+  freqs: 10
+  AR: false
+  cnn: false # true
+  depth: 0
+  fixed: true # false
+  
